@@ -30,8 +30,9 @@ public class Main {
         String genderStr = dataArray[5];
 
         LocalDate birthDate;
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         try {
-            birthDate = LocalDate.parse(birthDateStr, DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+            birthDate = LocalDate.parse(birthDateStr, dateFormat);
         } catch (DateTimeParseException e) {
             System.out.println("Ошибка: неверный формат даты рождения!");
             return;
@@ -68,11 +69,11 @@ public class Main {
             writer = new BufferedWriter(new FileWriter(filename, true));
             if (!exists) {
                 System.out.println("Файл создан: " + myObj.getName());
-                writer.write(String.format("%s %s %s %s %s %s", lastName, firstName, patronymic, birthDate, phoneNumber, gender));
+                writer.write(String.format("%s %s %s %s %s %s", lastName, firstName, patronymic, birthDate.format(dateFormat), phoneNumber, gender));
             } else {
                 System.out.println("Файл уже существует. Записываем новые данные однофамильца.");
                 try {
-                    writer.write(String.format("\n%s %s %s %s %s %s", lastName, firstName, patronymic, birthDate, phoneNumber, gender));
+                    writer.write(String.format("\n%s %s %s %s %s %s", lastName, firstName, patronymic, birthDate.format(dateFormat), phoneNumber, gender));
                 } catch (IOException ioe) {
                     System.out.println("Ошибка: " + ioe.getMessage());
                     ioe.printStackTrace();
